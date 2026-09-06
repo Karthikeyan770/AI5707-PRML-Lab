@@ -1,0 +1,7 @@
+Basics of Mathematics
+
+Multilayer feedforward neural networks
+
+Optimization and Regularization Methods
+
+Autoencoders
