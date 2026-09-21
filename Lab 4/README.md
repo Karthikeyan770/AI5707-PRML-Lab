@@ -40,11 +40,3 @@ For classification with equal priors:
 `g(x) = log p(x|w1) - log p(x|w2)`.
 Equal covariance matrices cancel the quadratic term and give a linear boundary; unequal covariance matrices generally produce a quadratic boundary.
 
-## Viva note
-Be able to explain why:
-1. isotropic covariance -> circular contours;
-2. diagonal unequal covariance -> axis-aligned ellipses;
-3. nonzero covariance -> rotated ellipses;
-4. eigenvectors are directions of the principal axes;
-5. eigenvalues control the squared spread along those axes;
-6. QDA arises when class covariance matrices differ.
