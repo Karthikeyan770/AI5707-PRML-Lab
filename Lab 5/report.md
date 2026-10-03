@@ -120,15 +120,6 @@ This experiment demonstrates Maximum Likelihood Estimation for linear regression
 
 The experiments on both the previous-assignment dataset and the real Diabetes dataset show how MLE provides a probabilistic interpretation of regression while leading to the familiar least-squares solution.
 
-### 9. Viva Questions
-**Q1. Why does MLE reduce to least squares for Gaussian noise?**  
-Because the Gaussian log-likelihood contains the squared residual term, so maximizing likelihood with respect to the weights is equivalent to minimizing the sum of squared errors.
-
-**Q2. What is the difference between MLE variance and an unbiased variance estimate?**  
-The MLE uses $\mathrm{SSE}/N$. An unbiased residual-variance estimate generally applies a degrees-of-freedom correction such as $N-p$.
-
-**Q3. Why use a least-squares solver instead of explicitly computing the inverse?**  
-It avoids explicitly forming the inverse and is generally more numerically stable.
 
 **Q4. What does $\beta$ represent?**  
 $\beta$ is the precision of the Gaussian noise model, equal to the reciprocal of the variance.
