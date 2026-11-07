@@ -1,0 +1,6 @@
+Features,GMM,LDA,KNN,SVM,Dataset
+Original,0.979,0.9665,0.99675,0.995,mnist_labelled_file_results
+PCA-2,0.9125,0.90725,0.9105,0.91175,mnist_labelled_file_results
+PCA-4,0.93125,0.92,0.93025,0.9335,mnist_labelled_file_results
+PCA-8,0.95975,0.93675,0.97225,0.96575,mnist_labelled_file_results
+PCA-12,0.97825,0.956,0.99225,0.99075,mnist_labelled_file_results
