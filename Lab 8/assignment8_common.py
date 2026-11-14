@@ -332,21 +332,36 @@ class GMMFromScratch:
         return self.log_sum_exp(joint_log_prob)
 
 
-def gmm_predict(X_train, y_train, X_test, K=1):
-    """Classify samples by fitting one GMM per class and comparing log scores."""
+def gmm_predict(X_train, y_train, X_test, K=3):
+    """Classify with one GMM per class, including the class prior.
+
+    The prior term mirrors the reference implementation:
+        predicted class = argmax(log p(x | class) + log p(class))
+    """
+    X_train = np.asarray(X_train, dtype=float)
+    y_train = np.asarray(y_train)
+    X_test = np.asarray(X_test, dtype=float)
     classes = np.unique(y_train)
-    class_models = {}
+
+    class_models = []
+    class_log_priors = []
 
     for class_label in classes:
         class_data = X_train[y_train == class_label]
-        component_count = min(K, len(class_data))
-        class_models[class_label] = GMMFromScratch(
-            n_components=component_count
+        component_count = max(1, min(int(K), len(class_data)))
+        model = GMMFromScratch(
+            n_components=component_count,
+            max_iter=100,
+            tol=1e-4,
+            reg=1e-3,
         ).fit(class_data)
+        class_models.append(model)
+        class_log_priors.append(np.log(len(class_data) / len(X_train)))
 
     class_scores = np.column_stack(
-        [class_models[label].score_samples(X_test) for label in classes]
+        [model.score_samples(X_test) for model in class_models]
     )
+    class_scores += np.asarray(class_log_priors)[None, :]
     return classes[np.argmax(class_scores, axis=1)]
 
 
@@ -379,6 +394,8 @@ class SVMBinarySMO:
         # SMO expects binary labels encoded as -1 and +1.
         y = np.where(np.asarray(y) == 1, 1.0, -1.0)
         sample_count, feature_count = X.shape
+        if sample_count < 2:
+            raise ValueError("SVM training requires at least two samples.")
 
         if self.gamma is None:
             self.gamma = 1 / max(feature_count, 1)
